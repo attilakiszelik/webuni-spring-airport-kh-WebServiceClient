@@ -1,0 +1,10 @@
+<!-- forrás: https://eclipse-ee4j.github.io/metro-jax-ws/4.0.0/docs/ch03.html#section-346120708971664 -->
+<bindings 
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+        xmlns="https://jakarta.ee/xml/ns/jaxws">
+    <bindings node="wsdl:definitions">
+    	<!-- ez váltja ki, hogy async kliens is generálódni fog -->
+        <enableAsyncMapping>true</enableAsyncMapping>
+    </bindings>
+</bindings>

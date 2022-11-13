@@ -1,0 +1,59 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>hu.webuni</groupId>
+  <artifactId>airport-WebServiceClient</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  
+  <!-- by default java5-tel generálja le az új maven projektet, erről az alábbi két property hozzáadásával beszélhetjük le -->
+  <properties>
+  	<maven.compiler.target>17</maven.compiler.target>
+  	<maven.compiler.source>>17</maven.compiler.source>
+  </properties>
+  
+  <!-- forrás: https://eclipse-ee4j.github.io/metro-jax-ws/jaxws-maven-plugin/usage.html -->
+  <!-- innen került hozzáadásra a függőség... -->
+  <dependencies>
+    <dependency>
+      <groupId>com.sun.xml.ws</groupId>
+      <artifactId>jaxws-rt</artifactId>
+      <version>3.0.0</version>
+    </dependency>
+  </dependencies>
+  
+  <!-- ...és a plugin -->
+  <build>
+    <plugins>
+      <plugin>
+
+        <groupId>com.sun.xml.ws</groupId>
+        <artifactId>jaxws-maven-plugin</artifactId>
+        <version>3.0.0</version>
+        
+        <executions>
+          <execution>
+            <goals>
+              <goal>wsimport</goal>
+            </goals>
+          </execution>
+        </executions>
+        
+        <configuration>
+          <!-- itt kell megadni a package nevét, ahova szeretnénk legeneráltatni a wsdl-böl a kliens csonkot -->
+          <packageName>hu.webuni.airport.wsclient</packageName>
+	          <!-- első generálás után target/generated-source/wsimport-on jobb klikk Build path -> Use as Source folder!!! -->
+	          <!-- midnen újragenerálás előtt target/jaxws mappát törölni kell!!! -->
+          <!-- illetve nagyon fontos, hogy itt bekonfigoljuk a wsdl forrás url-jét (többet is lehet) -->
+          <wsdlUrls>
+          	<wsdlUrl>http://localhost:8080/services/airport?wsdl</wsdlUrl>
+          </wsdlUrls>
+          <!-- aszinkron kliens generálásához létre kellett hozni a wsdl/jaxws-bindings.xml-t és itt bekonfigolni
+          vagy <bindingFile>${basedir}/wsdl/jaxws-bindings.xml</bindingFile>, vagy az alábbi módon, ami azért jó, mert
+          több binding fájlunk is lehet és akkor végig megy a mappában található összes fájlon -->
+          <bindingDirectory>${basedir}/wsdl</bindingDirectory>
+        </configuration>
+        
+      </plugin>
+    </plugins>
+  </build>
+  
+</project>
